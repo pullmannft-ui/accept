@@ -31,7 +31,7 @@ const AdminScreen: React.FC<AdminScreenProps> = ({ userData }) => {
     if (!authUser?.email) return false;
     const adminEmail = getAdminEmail();
     if (!adminEmail) return false;
-    return authUser.email.toLowerCase() === adminEmail;
+    return authUser.email.toLowerCase() === adminEmail.toLowerCase();
   }, [authUser?.email]);
 
   useEffect(() => {
