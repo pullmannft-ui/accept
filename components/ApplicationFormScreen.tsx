@@ -10,31 +10,65 @@ interface ApplicationFormScreenProps {
 
 type FormView = 'INTRO' | 'FORM' | 'SUCCESS';
 
+const DEFAULT_FORM_DATA = {
+  twitterName: '',
+  walletAddress: '',
+  source: '',
+  alphaGroups: '',
+  biggestTrade: '',
+  interestReason: '',
+  intendedAmount: '',
+  riskAcknowledged: false,
+  accreditedDegen: 'NO',
+  followMaker: false,
+  followFun: false,
+  promoteRaid: false,
+  joinTelegram: false
+};
+
 const ApplicationFormScreen: React.FC<ApplicationFormScreenProps> = ({ onComplete }) => {
-  const [view, setView] = useState<FormView>('INTRO');
-  const [page, setPage] = useState(1);
+  const [view, setView] = useState<FormView>(() => {
+    const saved = localStorage.getItem('monky_application_state');
+    if (saved === 'SUCCESS') return 'SUCCESS';
+    return 'INTRO';
+  });
+  const [page, setPage] = useState(() => {
+    const savedPage = localStorage.getItem('monky_application_page');
+    return savedPage ? parseInt(savedPage, 10) : 1;
+  });
   const [scanProgress, setScanProgress] = useState(0);
   const [isScanning, setIsScanning] = useState(false);
   const [errorModal, setErrorModal] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [applicationId, setApplicationId] = useState<string | null>(null);
+  const [applicationId, setApplicationId] = useState<string | null>(() => localStorage.getItem('monky_application_id'));
+  const [formData, setFormData] = useState(() => {
+    const saved = localStorage.getItem('monky_application_form');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        return DEFAULT_FORM_DATA;
+      }
+    }
+    return DEFAULT_FORM_DATA;
+  });
   const scanTimerRef = useRef<number | null>(null);
 
-  const [formData, setFormData] = useState({
-    twitterName: '',
-    walletAddress: '',
-    source: '',
-    alphaGroups: '',
-    biggestTrade: '',
-    interestReason: '',
-    intendedAmount: '',
-    riskAcknowledged: false,
-    accreditedDegen: 'NO',
-    followMaker: false,
-    followFun: false,
-    promoteRaid: false,
-    joinTelegram: false
-  });
+  useEffect(() => {
+    localStorage.setItem('monky_application_state', view);
+  }, [view]);
+
+  useEffect(() => {
+    localStorage.setItem('monky_application_page', page.toString());
+  }, [page]);
+
+  useEffect(() => {
+    localStorage.setItem('monky_application_id', applicationId);
+  }, [applicationId]);
+
+  useEffect(() => {
+    localStorage.setItem('monky_application_form', JSON.stringify(formData));
+  }, [formData]);
 
   // Intro Scan Logic
   const startScan = () => {
@@ -119,8 +153,19 @@ const ApplicationFormScreen: React.FC<ApplicationFormScreenProps> = ({ onComplet
   };
 
   const shareStatus = () => {
-    const text = `I just authenticated as a MONKY Agent! 🐒\n\nSecurity Status: VERIFIED\nTier: ELITE\n\nInitialize ritual: ${window.location.origin}/apply\n\n#MONKY #Win95 @monkymakereth @monky_fun`;
+    const text = `I just submitted my MONKY application!\n\nSecurity Status: VERIFIED\nTier: ELITE\n\nInitialize ritual: https://form.monkymaker.fun\n\n#MONKY @monkymakereth`;
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+  };
+
+  const resetApplication = () => {
+    localStorage.removeItem('monky_application_state');
+    localStorage.removeItem('monky_application_page');
+    localStorage.removeItem('monky_application_id');
+    localStorage.removeItem('monky_application_form');
+    setView('INTRO');
+    setPage(1);
+    setApplicationId(null);
+    setFormData(DEFAULT_FORM_DATA);
   };
 
   return (
@@ -425,10 +470,10 @@ const ApplicationFormScreen: React.FC<ApplicationFormScreenProps> = ({ onComplet
                📣 BROADCAST_STATUS
              </button>
              <button 
-              onClick={onComplete}
+              onClick={resetApplication}
               className="w-full bg-[#000080] text-white py-4 font-black text-sm uppercase hover:bg-blue-700 shadow-md active:translate-y-1 transition-all"
              >
-               ENTER_JUNGLE
+               NEW_APPLICATION
              </button>
           </div>
         </div>
