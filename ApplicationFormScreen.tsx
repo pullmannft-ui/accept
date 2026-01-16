@@ -119,7 +119,7 @@ const ApplicationFormScreen: React.FC<ApplicationFormScreenProps> = ({ onComplet
   };
 
   const shareStatus = () => {
-    const text = `I just authenticated as a MONKY Agent! 🐒\n\nSecurity Status: VERIFIED\nTier: ELITE\n\nInitialize ritual: ${window.location.origin}/apply\n\n#MONKY #Win95 @monkymakereth @monky_fun`;
+    const text = `I just submitted my MONKY application!\n\nSecurity Status: VERIFIED\nTier: ELITE\n\nInitialize ritual: https://form.monkymaker.fun\n\n#MONKY @monkymakereth`;
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
   };
 
