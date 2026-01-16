@@ -28,7 +28,7 @@ export const PRESALE_CONFIG = {
 export const SOCIAL_LINKS = {
   MONKY_MAKER: "https://x.com/monkymakereth",
   MONKY_FUN: "https://x.com/monky_fun",
-  MONKY_TELEGRAM: "https://t.me/monky_maker",
+  MONKY_TELEGRAM: "https://t.me/monky_fun",
   RAID_TWEET: "https://x.com/monkymakereth/status/123456789" // Placeholder for actual raid
 };
 
