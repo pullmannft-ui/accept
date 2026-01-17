@@ -29,7 +29,7 @@ export const SOCIAL_LINKS = {
   MONKY_MAKER: "https://x.com/monkymakereth",
   MONKY_FUN: "https://x.com/monky_fun",
   MONKY_TELEGRAM: "https://t.me/monky_fun",
-  RAID_TWEET: "https://x.com/monkymakereth/status/123456789" // Placeholder for actual raid
+  RAID_TWEET: "https://x.com/monkymakereth/status/2012515426149036181?s=46" // Placeholder for actual raid
 };
 
 export const AIRDROP_MISSIONS: Mission[] = [
